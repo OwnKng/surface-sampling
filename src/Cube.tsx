@@ -1,10 +1,12 @@
 // @ts-nocheck
-import { useLayoutEffect, useMemo, useRef } from "react"
+import { useFrame, useThree } from "@react-three/fiber"
+import { useLayoutEffect, useMemo, useRef, useEffect } from "react"
 import * as THREE from "three"
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler"
 
 const tempObject = new THREE.Object3D()
 const tempPosition = new THREE.Vector3()
+let matrix = new THREE.Matrix4()
 
 const Cube = ({ colorArray }: any) => {
   const meshRef = useRef()
@@ -12,7 +14,7 @@ const Cube = ({ colorArray }: any) => {
   const cube = useMemo(
     () =>
       new THREE.Mesh(
-        new THREE.IcosahedronGeometry(10, 2),
+        new THREE.BoxGeometry(10, 10, 10),
         new THREE.MeshBasicMaterial()
       ),
     []
@@ -21,29 +23,52 @@ const Cube = ({ colorArray }: any) => {
   const sampler = useMemo(() => new MeshSurfaceSampler(cube).build(), [cube])
 
   useLayoutEffect(() => {
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1000; i++) {
       sampler.sample(tempPosition)
+
       tempObject.position.set(tempPosition.x, tempPosition.y, tempPosition.z)
       tempObject.scale.setScalar(Math.random() * 0.5 + 0.5)
-      tempObject.rotation.set(
-        Math.random() * Math.PI,
-        Math.random() * Math.PI,
-        Math.random() * Math.PI
-      )
       tempObject.updateMatrix()
+
       meshRef.current.setMatrixAt(i, tempObject.matrix)
     }
     meshRef.current.instanceMatrix.needsUpdate = true
   })
 
+  useFrame(({ clock }) => {
+    const time = clock.getElapsedTime()
+    for (let i = 0; i < 1000; i++) {
+      meshRef.current.getMatrixAt(i, matrix)
+
+      tempPosition.setFromMatrixPosition(matrix)
+      tempObject.position.set(tempPosition.x, tempPosition.y, tempPosition.z)
+      tempObject.rotation.set(
+        Math.sin(time / 10 + i),
+        Math.sin(time + i / 10),
+        0
+      )
+
+      tempObject.updateMatrix()
+
+      meshRef.current.setMatrixAt(i, tempObject.matrix)
+    }
+
+    meshRef.current.instanceMatrix.needsUpdate = true
+  })
+
   return (
-    <instancedMesh ref={meshRef} args={[null, null, 500]}>
-      <boxGeometry args={[0.5, 0.5, 0.5]}>
+    <instancedMesh
+      receiveShadow
+      castShadow
+      ref={meshRef}
+      args={[null, null, 1000]}
+    >
+      <coneGeometry args={[0.25, 0.75, 3]}>
         <instancedBufferAttribute
           attachObject={["attributes", "color"]}
           args={[colorArray, 3]}
         />
-      </boxGeometry>
+      </coneGeometry>
       <meshPhongMaterial vertexColors={THREE.VertexColors} />
     </instancedMesh>
   )
@@ -51,7 +76,7 @@ const Cube = ({ colorArray }: any) => {
 
 const tempColor = new THREE.Color()
 
-const data = Array.from({ length: 500 }, () => ({
+const data = Array.from({ length: 1000 }, () => ({
   color: ["#5ADBFF", "#006DAA", "#F15152", "#ffffff"][
     Math.floor(Math.random() * 5)
   ],
@@ -62,7 +87,7 @@ export default function CubeWrapper() {
   const colorArray = useMemo(
     () =>
       Float32Array.from(
-        new Array(500)
+        new Array(1000)
           .fill(0)
           .flatMap((_, i) => tempColor.set(data[i].color).toArray())
       ),
