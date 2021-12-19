@@ -1,17 +1,26 @@
 // @ts-nocheck
 import { Canvas } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
-import Cube from "./Cube"
+import { OrbitControls, useProgress, Html } from "@react-three/drei"
+import Model from "./Model"
 import { Suspense } from "react"
+
+function Loader() {
+  const { progress } = useProgress()
+  return (
+    <Html center>
+      <div className='loader'>{progress} % Loaded</div>
+    </Html>
+  )
+}
 
 const Scene = () => {
   return (
-    <Canvas camera={{ position: [0, 20, 0] }}>
-      <hemisphereLight intensity={0.4} />
-      <directionalLight castShadow intensity={0.4} position={[0, 20, 0]} />
+    <Canvas shadows camera={{ position: [0, 40, 60] }}>
+      <hemisphereLight intensity={0.2} />
+      <directionalLight castShadow intensity={0.8} position={[0, 40, 0]} />
       <OrbitControls />
-      <Suspense fallback={null}>
-        <Cube />
+      <Suspense fallback={<Loader />}>
+        <Model />
       </Suspense>
     </Canvas>
   )
