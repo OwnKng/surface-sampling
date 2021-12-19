@@ -9,7 +9,19 @@ function Loader() {
   const { progress } = useProgress()
   return (
     <Html center>
-      <div className='loader'>{progress} % Loaded</div>
+      <div className='loader'>
+        <span>Loading</span>
+        <div className='bars'>
+          <div className='bar' />
+          <div
+            className='bar'
+            style={{
+              width: `${progress}%`,
+              background: "#5ADBFF",
+            }}
+          />
+        </div>
+      </div>
     </Html>
   )
 }
