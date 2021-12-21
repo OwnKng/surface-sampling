@@ -1,9 +1,8 @@
-//@ts-nocheck
 import { useLayoutEffect, useMemo, useRef } from "react"
 import * as THREE from "three"
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler"
 import { useGLTF, Instances, Instance } from "@react-three/drei"
-import { InstancedMesh, Mesh } from "three"
+import { Mesh } from "three"
 import { useFrame } from "@react-three/fiber"
 
 const data = Array.from({ length: 5000 }, () => ({
@@ -19,7 +18,7 @@ const data = Array.from({ length: 5000 }, () => ({
 }))
 
 const Model = () => {
-  const meshRef = useRef<InstancedMesh>(null!)
+  const meshRef = useRef<any>(null!)
 
   const { nodes } = useGLTF("/cesar.glb") as any
 
