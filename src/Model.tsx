@@ -10,7 +10,7 @@ const data = Array.from({ length: 5000 }, () => ({
   color: ["#5ADBFF", "#006DAA", "#F15152", "#ffffff"][
     Math.floor(Math.random() * 5)
   ],
-  scale: Math.random(),
+  scale: Math.random() * 1.25,
   rotation: {
     x: Math.PI * Math.random(),
     y: Math.PI * Math.random(),
