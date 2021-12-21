@@ -4,6 +4,7 @@ import { OrbitControls, useProgress, Html } from "@react-three/drei"
 import Model from "./Model"
 import { Suspense } from "react"
 import Player from "./Player"
+import Light from "./Light"
 
 function Loader() {
   const { progress } = useProgress()
@@ -28,13 +29,13 @@ function Loader() {
 
 const Scene = () => {
   return (
-    <Canvas shadows camera={{ position: [-10, 50, 50] }}>
-      <hemisphereLight intensity={0.2} />
-      <directionalLight castShadow intensity={0.8} position={[0, 40, 0]} />
+    <Canvas camera={{ position: [-10, 40, 60] }}>
+      <hemisphereLight intensity={0.4} />
+      <directionalLight intensity={0.4} position={[0, 40, 0]} />
       <OrbitControls />
+      <Light />
       <Suspense fallback={<Loader />}>
         <Model />
-        <Player />
       </Suspense>
     </Canvas>
   )
