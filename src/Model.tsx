@@ -6,7 +6,7 @@ import { useGLTF, Instances, Instance } from "@react-three/drei"
 import { InstancedMesh, Mesh } from "three"
 import { useFrame } from "@react-three/fiber"
 
-const data = Array.from({ length: 8000 }, () => ({
+const data = Array.from({ length: 5000 }, () => ({
   color: ["#5ADBFF", "#006DAA", "#F15152", "#ffffff"][
     Math.floor(Math.random() * 5)
   ],
@@ -32,7 +32,7 @@ const Model = () => {
     const positionArray = []
     const sampler = new MeshSurfaceSampler(geo).build()
 
-    for (let i = 0; i < 8000; i++) {
+    for (let i = 0; i < 5000; i++) {
       const tempPosition = new THREE.Vector3()
       sampler.sample(tempPosition)
 
@@ -62,7 +62,7 @@ const Model = () => {
   return (
     <Instances
       ref={meshRef}
-      limit={10000}
+      limit={5000}
       rotation={[Math.PI * 0.5, 0, Math.PI * 0.75]}
       scale={4}
     >
