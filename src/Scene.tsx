@@ -6,7 +6,7 @@ import StageLights from "./StageLights"
 import Loader from "./Loader"
 
 const Scene = () => (
-  <Canvas camera={{ position: [-10, 50, 60] }}>
+  <Canvas camera={{ position: [-10, 60, 80] }}>
     <Orbit />
     <StageLights />
     <Suspense fallback={<Loader />}>

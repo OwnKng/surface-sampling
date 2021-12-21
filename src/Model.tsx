@@ -24,7 +24,7 @@ const Model = () => {
   const { nodes } = useGLTF("/cesar.glb") as any
 
   const geo = useMemo(
-    () => new THREE.Mesh(nodes.Mesh_4.geometry, new THREE.MeshBasicMaterial()),
+    () => new THREE.Mesh(nodes.CESAR.geometry, new THREE.MeshBasicMaterial()),
     [nodes]
   )
 
@@ -48,13 +48,13 @@ const Model = () => {
 
     meshRef.current.rotation.z = THREE.MathUtils.lerp(
       meshRef.current.rotation.z,
-      -Math.PI * 0.75 + x / 250,
+      Math.PI * 0.75 - x / 250,
       0.1
     )
 
     meshRef.current.rotation.x = THREE.MathUtils.lerp(
       meshRef.current.rotation.x,
-      -Math.PI * 0.5 - y / 360,
+      Math.PI * 0.5 - y / 360,
       0.1
     )
   })
@@ -63,8 +63,8 @@ const Model = () => {
     <Instances
       ref={meshRef}
       limit={10000}
-      rotation={[-Math.PI * 0.5, 0, -Math.PI * 0.75]}
-      scale={2.2}
+      rotation={[Math.PI * 0.5, 0, Math.PI * 0.75]}
+      scale={4}
     >
       <coneGeometry args={[0.2, 0.2, 4]} />
       <meshPhongMaterial />
