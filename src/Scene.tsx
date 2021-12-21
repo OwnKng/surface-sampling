@@ -3,6 +3,7 @@ import { OrbitControls, useProgress, Html } from "@react-three/drei"
 import Model from "./Model"
 import { Suspense } from "react"
 import Light from "./Light"
+import Lights from "./Lights"
 
 function Loader() {
   const { progress } = useProgress()
@@ -25,18 +26,15 @@ function Loader() {
   )
 }
 
-const Scene = () => {
-  return (
-    <Canvas camera={{ position: [-10, 40, 60] }}>
-      <hemisphereLight intensity={0.4} />
-      <directionalLight intensity={0.4} position={[0, 40, 0]} />
-      <OrbitControls />
-      <Light />
-      <Suspense fallback={<Loader />}>
-        <Model />
-      </Suspense>
-    </Canvas>
-  )
-}
+const Scene = () => (
+  <Canvas camera={{ position: [-10, 50, 60] }}>
+    <Lights />
+    <Light />
+    <OrbitControls />
+    <Suspense fallback={<Loader />}>
+      <Model />
+    </Suspense>
+  </Canvas>
+)
 
 export default Scene

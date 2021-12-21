@@ -64,10 +64,10 @@ const Model = () => {
       ref={meshRef}
       limit={10000}
       rotation={[-Math.PI * 0.5, 0, -Math.PI * 0.75]}
-      scale={2}
+      scale={2.2}
     >
-      <coneGeometry args={[0.2, 0.2, 3]} />
-      <meshPhongMaterial flatShading />
+      <coneGeometry args={[0.2, 0.2, 4]} />
+      <meshPhongMaterial />
       {positions.map((data, i) => (
         <Pixel key={i} {...data} />
       ))}
