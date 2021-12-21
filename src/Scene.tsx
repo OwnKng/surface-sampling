@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useProgress, Html } from "@react-three/drei"
 import Model from "./Model"

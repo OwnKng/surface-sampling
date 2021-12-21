@@ -3,7 +3,8 @@ import { useLayoutEffect, useMemo, useRef } from "react"
 import * as THREE from "three"
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler"
 import { useGLTF, Instances, Instance } from "@react-three/drei"
-import { Mesh } from "three"
+import { InstancedMesh, Mesh } from "three"
+import { useFrame } from "@react-three/fiber"
 
 const data = Array.from({ length: 8000 }, () => ({
   color: ["#5ADBFF", "#006DAA", "#F15152", "#ffffff"][
@@ -18,7 +19,9 @@ const data = Array.from({ length: 8000 }, () => ({
 }))
 
 const Model = () => {
-  const { nodes } = useGLTF("/cesar.glb")
+  const meshRef = useRef<InstancedMesh>(null!)
+
+  const { nodes } = useGLTF("/cesar.glb") as any
 
   const geo = useMemo(
     () => new THREE.Mesh(nodes.Mesh_4.geometry, new THREE.MeshBasicMaterial()),
@@ -39,8 +42,26 @@ const Model = () => {
     return positionArray
   }, [geo])
 
+  useFrame(({ mouse, viewport }) => {
+    const x = (mouse.x * viewport.width) / 2
+    const y = (mouse.y * viewport.height) / 2
+
+    meshRef.current.rotation.z = THREE.MathUtils.lerp(
+      meshRef.current.rotation.z,
+      -Math.PI * 0.75 + x / 250,
+      0.1
+    )
+
+    meshRef.current.rotation.x = THREE.MathUtils.lerp(
+      meshRef.current.rotation.x,
+      -Math.PI * 0.5 - y / 360,
+      0.1
+    )
+  })
+
   return (
     <Instances
+      ref={meshRef}
       limit={10000}
       rotation={[-Math.PI * 0.5, 0, -Math.PI * 0.75]}
       scale={2}
