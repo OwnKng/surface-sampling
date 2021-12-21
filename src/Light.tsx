@@ -1,9 +1,9 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
-import { Mesh } from "three"
+import { PointLight } from "three"
 
 const Light = () => {
-  const ref = useRef<Mesh>(null!)
+  const ref = useRef<PointLight>(null!)
 
   useFrame(({ clock }) => {
     const time = clock.getElapsedTime()

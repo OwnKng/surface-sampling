@@ -3,7 +3,7 @@ import { useLayoutEffect, useMemo, useRef } from "react"
 import * as THREE from "three"
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler"
 import { useGLTF, Instances, Instance } from "@react-three/drei"
-import { Mesh, InstancedMesh } from "three"
+import { Mesh } from "three"
 
 const data = Array.from({ length: 8000 }, () => ({
   color: ["#5ADBFF", "#006DAA", "#F15152", "#ffffff"][
@@ -18,7 +18,6 @@ const data = Array.from({ length: 8000 }, () => ({
 }))
 
 const Model = () => {
-  const meshRef = useRef<InstancedMesh>(null!)
   const { nodes } = useGLTF("/cesar.glb")
 
   const geo = useMemo(

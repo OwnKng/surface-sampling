@@ -3,7 +3,6 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useProgress, Html } from "@react-three/drei"
 import Model from "./Model"
 import { Suspense } from "react"
-import Player from "./Player"
 import Light from "./Light"
 
 function Loader() {
