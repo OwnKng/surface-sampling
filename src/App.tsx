@@ -6,7 +6,7 @@ const App = () => {
     <div className='App'>
       <Scene />
       <div className='background'>
-        <h1>cesar</h1>
+        <h1>Caesar</h1>
       </div>
     </div>
   )
