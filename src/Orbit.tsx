@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { PointLight } from "three"
 
-const Light = () => {
+const Orbit = () => {
   const ref = useRef<PointLight>(null!)
 
   useFrame(({ clock }) => {
@@ -15,4 +15,4 @@ const Light = () => {
   return <pointLight ref={ref} intensity={4.0} decay={1} distance={20} />
 }
 
-export default Light
+export default Orbit
